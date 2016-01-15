@@ -18,7 +18,24 @@ def topologicalSort(graph):
             topologicalSortVisit(v)
 
     return stack[::-1]
-                
+
+def BFS(graph, start, visit=None):
+    visited = [False for _ in range(graph.size)]
+    queue = [start]
+    if visit is None:
+        visit = lambda x: print(x)
+
+    while len(queue) > 0:
+        v = queue.pop(0)
+        if visited[v]:
+            continue
+        visit(v)
+        visited[v] = True
+        for neighbor in graph.getNeighbors(v):
+            queue.append(neighbor)
+
+
+
 
 if __name__ == '__main__':
     g = AMGraph(6)
@@ -29,4 +46,8 @@ if __name__ == '__main__':
     g.addEdge(4,0)
     g.addEdge(4,1)
     print(str(g))
-    print(topologicalSort(g))
+    # print(topologicalSort(g))
+    bfsOrder = []
+    appendor = lambda x: bfsOrder.append(x)
+    BFS(g, 5, appendor)
+    print(bfsOrder)
