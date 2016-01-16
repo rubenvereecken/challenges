@@ -6,13 +6,12 @@ class Graph(object):
 
     @classmethod
     def fromMatrix(cls, m):
-        g = cls()
+        g = cls(len(m))
         g.m = m
         return g
 
 
 class AMGraph(Graph):
-
     def __init__(self, size, directed=True):
         self.size = size
         # [row, column]
@@ -36,6 +35,23 @@ class AMGraph(Graph):
 
     def getNeighbors(self, v):
         return [x for x, edge in enumerate(self.m[v]) if edge]
+
+
+class WeightedAMGraph(AMGraph):
+    def __init__(self, size, directed=True):
+        self.size = size
+        # [row, column]
+        self.m = [[0 for _ in range(size)] for _ in range(size)]
+        self.directed = directed
+
+    def __str__(self):
+        concat = lambda s, row: s + ' '.join(map(str, row)) + '\n'
+        return reduce(concat, self.m, '')
+
+    def addEdge(self, u, v, weight):
+        self.m[u][v] = weight
+        if not self.directed:
+            self.m[v][u] = weight
 
 
 class AJGraph(Graph):
