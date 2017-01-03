@@ -1,0 +1,56 @@
+'''
+Created on Dec 29, 2011
+
+@author: ruben
+'''
+
+def dec_to_bin (dec):
+    if dec <= 1: return str(dec)
+    else: return dec_to_bin(dec // 2) + str(dec % 2)
+
+
+def extend (bn, length):
+    strng = ''
+    while len(bn) < length:
+        strng = '0' + bn
+        bn = strng
+    return bn
+
+
+def count_char (bitString, char):
+    count = 0
+    for i in bitString:
+        if i == char: count += 1
+    return count
+
+
+def count_substring (bitString, subString):
+    count = 0
+    length = len(subString)
+    for i in range(len(bitString) - length + 1):
+        print('for bitString', bitString, 'I\'m checking substring', bitString[i:i+length])
+        if bitString[i:i+length] == subString: count += 1
+    return count
+        
+
+if __name__ == '__main__':
+    bitNums = []
+    tenCount = 0
+    nineCount = 0
+    eightCount = 0
+    sevenCount = 0
+    sixCount = 0
+    fiveCount = 0
+    for i in range(0, 1024):
+        bitNums.append(extend(dec_to_bin(i), 10))
+    
+    for i in bitNums:
+        temp = count_substring (i, '11111')
+        if temp > 0: print(temp, 'has been counted for', i)
+        fiveCount += temp
+        
+    
+    print(bitNums)
+    print('Five count:', fiveCount)
+    
+    print(count_substring('1111111111', '11111'))
